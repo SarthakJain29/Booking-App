@@ -11,7 +11,10 @@ const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = 'efjqfjkf13rnjn';
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173', 
+    credentials: true,               
+}));
 
 mongoose.connect(process.env.MONGO_URL);
 
@@ -35,9 +38,7 @@ app.post('/register', async (req,res)=>{
 })
 
 app.post('/login', async (req, res) => {
-    console.log('Login endpoint hit'); // This should print on every request to /login
     const { email, password } = req.body;
-    console.log('Login attempt for email:', email);
     const userDoc = await User.findOne({ email });
 
     if (userDoc) {
@@ -48,9 +49,13 @@ app.post('/login', async (req, res) => {
                 jwtSecret, 
                 {}, 
                 (err, token) => {
-                    if (err) throw err;
-                    console.log('Generated JWT:', token); 
-                    res.cookie('token', token, { httpOnly: true }).json({ token, message: 'pass ok' });
+                    if (err) throw err; 
+                    res.cookie('token', token, {
+                        httpOnly: true,
+                        secure: false,
+                        sameSite: 'lax', 
+                    }).json(userDoc);
+                    
                 }
             );
         } else {
