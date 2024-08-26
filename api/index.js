@@ -4,6 +4,7 @@ const cors = require('cors');
 const { default: mongoose } = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const User = require('./models/user.js');
 const app = express();
 
@@ -11,6 +12,7 @@ const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = 'efjqfjkf13rnjn';
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors({
     origin: 'http://localhost:5173', 
     credentials: true,               
@@ -66,6 +68,9 @@ app.post('/login', async (req, res) => {
     }
 });
 
-
+app.get('/profile', (req,res) =>{
+    const {token} = req.cookies;
+    res.json({token});
+})
 
 app.listen(4000);

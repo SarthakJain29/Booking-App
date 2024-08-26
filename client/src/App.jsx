@@ -9,15 +9,15 @@ import RegisterPage from './pages/register';
 function App() {
     return (
         <UserContextProvider>
-            <Router>
-                <Routes>
-                    <Route path="/" element={<Layout/>}>
-                        <Route index element={<IndexPage/>} />
-                        <Route path="/login" element={<LoginPage/>} />
-                        <Route path="/register" element={<RegisterPage/>} />
-                    </Route>
-                </Routes>
-            </Router>
+            
+            <Routes>
+                <Route path="/" element={<Layout/>}>
+                    <Route index element={<IndexPage/>} />
+                    <Route path="/login" element={<LoginPage/>} />
+                    <Route path="/register" element={<RegisterPage/>} />
+                </Route>
+            </Routes>
+           
         </UserContextProvider>
     );
 }

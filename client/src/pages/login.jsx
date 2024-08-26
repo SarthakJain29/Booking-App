@@ -13,7 +13,6 @@ export default function LoginPage() {
         ev.preventDefault();
         try {
             const response = await axios.post('http://localhost:4000/login', { email, password }, {withCredentials:true});
-            console.log(response);
             setUser(response.data);
             alert('Login successfull')
             setRedirect(true);
